@@ -57,41 +57,11 @@ export async function uploadImageToVercelBlob(
   format: "A" | "B",
 ): Promise<string> {
   const blob = await canvasToBlob(canvas);
-  const filename = `${Date.now()}-${currentFilename(format)}`;
-
-  console.log("Uploading to API:", filename);
-
-  const formData = new FormData();
-  formData.append("file", blob, filename);
-  formData.append("filename", filename);
-
-  try {
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    console.log("API response status:", response.status);
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(
-        error.error || `Upload failed with status ${response.status}`,
-      );
-    }
-
-    const data = await response.json();
-    console.log("Upload successful:", data.url);
-    return data.url;
-  } catch (error) {
-    console.error("Upload error:", error);
-    throw error;
-  }
 }
 
 async function shareViaClipboard(
   canvas: HTMLCanvasElement,
-  caption,
+  caption: any,
 ): Promise<boolean> {
   try {
     // Upload to Vercel Blob first
