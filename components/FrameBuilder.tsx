@@ -1,25 +1,18 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { FrameState } from '@/lib/types';
-import { TITLES, SIZE_A, SIZE_B_W, SIZE_B_H } from '@/lib/constants';
-import { renderA, renderB, getSlot } from '@/lib/renderCanvas';
-import {
-  handleFileUpload,
-  loadImageFromBlob,
-} from '@/lib/imageProcessing';
-import {
-  downloadImage,
-  shareToX,
-  showToast,
-} from '@/lib/export';
-import Canvas from './Canvas';
-import FormFields from './FormFields';
+import { TITLES } from "@/lib/constants";
+import { downloadImage, shareToX, showToast } from "@/lib/export";
+import { handleFileUpload, loadImageFromBlob } from "@/lib/imageProcessing";
+import { getSlot, renderA, renderB } from "@/lib/renderCanvas";
+import { FrameState } from "@/lib/types";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Canvas from "./Canvas";
+import FormFields from "./FormFields";
 
 export default function FrameBuilder() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [state, setState] = useState<FrameState>({
-    format: 'A',
+    format: "A",
     img: null,
     imgW: 0,
     imgH: 0,
@@ -29,13 +22,13 @@ export default function FrameBuilder() {
     cy: 0,
     zoomPct: 100,
     dragging: false,
-    fields: { name: '', role: '', title: '' },
+    fields: { name: "", role: "", title: "" },
     fontsReady: false,
     patternA: null,
     patternB: null,
   });
 
-  const [statusMsg, setStatusMsg] = useState('');
+  const [statusMsg, setStatusMsg] = useState("");
   const [lastTitleIdx, setLastTitleIdx] = useState(-1);
   const [rafPending, setRafPending] = useState(false);
   const [pointer, setPointer] = useState({
@@ -80,14 +73,8 @@ export default function FrameBuilder() {
       // Clamp center
       const halfW = slot.w! / 2 / scale;
       const halfH = slot.h! / 2 / scale;
-      cx = Math.min(
-        Math.max(cx, halfW),
-        Math.max(halfW, s.imgW - halfW)
-      );
-      cy = Math.min(
-        Math.max(cy, halfH),
-        Math.max(halfH, s.imgH - halfH)
-      );
+      cx = Math.min(Math.max(cx, halfW), Math.max(halfW, s.imgW - halfW));
+      cy = Math.min(Math.max(cy, halfH), Math.max(halfH, s.imgH - halfH));
 
       return { ...s, scale, minScale, cx, cy, zoomPct: 100 };
     });
@@ -102,10 +89,10 @@ export default function FrameBuilder() {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      if (state.format === 'A') {
+      if (state.format === "A") {
         renderA(ctx, state);
       } else {
         renderB(ctx, state);
@@ -120,11 +107,20 @@ export default function FrameBuilder() {
     if (state.fontsReady) {
       render();
     }
-  }, [state.fontsReady, state.format, state.img, state.cx, state.cy, state.scale, state.fields, render]);
+  }, [
+    state.fontsReady,
+    state.format,
+    state.img,
+    state.cx,
+    state.cy,
+    state.scale,
+    state.fields,
+    render,
+  ]);
 
   // Handle file upload
   const handleUpload = async (file: File) => {
-    setStatusMsg('Loading photo…');
+    setStatusMsg("Loading photo…");
     try {
       const blob = await handleFileUpload(file);
       const img = await loadImageFromBlob(blob);
@@ -136,16 +132,17 @@ export default function FrameBuilder() {
         imgH: img.naturalHeight,
       }));
 
-      setStatusMsg('');
+      setStatusMsg("");
       recomputeCover(true);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Error loading photo';
+      const message =
+        err instanceof Error ? err.message : "Error loading photo";
       setStatusMsg(message);
     }
   };
 
   // Handle format change
-  const handleFormatChange = (format: 'A' | 'B') => {
+  const handleFormatChange = (format: "A" | "B") => {
     setState((s) => ({ ...s, format }));
     if (state.img) {
       recomputeCover(true);
@@ -176,10 +173,10 @@ export default function FrameBuilder() {
 
     const canvas = e.currentTarget;
     canvas.setPointerCapture(e.pointerId);
-    canvas.classList.add('dragging');
+    canvas.classList.add("dragging");
 
-    const hint = document.getElementById('dragHint');
-    if (hint) hint.style.opacity = '0';
+    const hint = document.getElementById("dragHint");
+    if (hint) hint.style.opacity = "0";
   };
 
   const handleDragMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -201,30 +198,27 @@ export default function FrameBuilder() {
     const slot = getSlot(state.format);
     const halfW = slot.w! / 2 / state.scale;
     const halfH = slot.h! / 2 / state.scale;
-    cx = Math.min(
-      Math.max(cx, halfW),
-      Math.max(halfW, state.imgW - halfW)
-    );
-    cy = Math.min(
-      Math.max(cy, halfH),
-      Math.max(halfH, state.imgH - halfH)
-    );
+    cx = Math.min(Math.max(cx, halfW), Math.max(halfW, state.imgW - halfW));
+    cy = Math.min(Math.max(cy, halfH), Math.max(halfH, state.imgH - halfH));
 
     setState((s) => ({ ...s, cx, cy }));
   };
 
   const handleDragEnd = (e: React.PointerEvent<HTMLCanvasElement>) => {
     setPointer({ ...pointer, active: false });
-    e.currentTarget.classList.remove('dragging');
+    e.currentTarget.classList.remove("dragging");
   };
 
-  const handleWheel = useCallback((e: WheelEvent) => {
-    if (!state.img) return;
-    e.preventDefault();
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      if (!state.img) return;
+      e.preventDefault();
 
-    const delta = e.deltaY > 0 ? -8 : 8;
-    handleZoomChange(state.zoomPct + delta);
-  }, [state.img, state.zoomPct]);
+      const delta = e.deltaY > 0 ? -8 : 8;
+      handleZoomChange(state.zoomPct + delta);
+    },
+    [state.img, state.zoomPct],
+  );
 
   // Shuffle title
   const shuffleTitle = () => {
@@ -293,14 +287,14 @@ export default function FrameBuilder() {
         <div className="stage-col">
           <div className="tabs">
             <button
-              className={`tab ${state.format === 'A' ? 'active' : ''}`}
-              onClick={() => handleFormatChange('A')}
+              className={`tab ${state.format === "A" ? "active" : ""}`}
+              onClick={() => handleFormatChange("A")}
             >
               PFP Frame
             </button>
             <button
-              className={`tab ${state.format === 'B' ? 'active' : ''}`}
-              onClick={() => handleFormatChange('B')}
+              className={`tab ${state.format === "B" ? "active" : ""}`}
+              onClick={() => handleFormatChange("B")}
             >
               Builder ID Card
             </button>
@@ -315,14 +309,14 @@ export default function FrameBuilder() {
             }}
             onDragOver={(e) => {
               e.preventDefault();
-              e.currentTarget.classList.add('over');
+              e.currentTarget.classList.add("over");
             }}
             onDragLeave={(e) => {
               e.preventDefault();
-              e.currentTarget.classList.remove('over');
+              e.currentTarget.classList.remove("over");
             }}
-            onClick={() => document.getElementById('fileInput')?.click()}
-            style={{ display: showCanvas ? 'none' : 'block' }}
+            onClick={() => document.getElementById("fileInput")?.click()}
+            style={{ display: showCanvas ? "none" : "block" }}
           >
             <div className="big">Drop a photo here, or tap to upload</div>
             <div className="small">JPG · PNG · HEIC (iPhone) — up to 25MB</div>
@@ -348,7 +342,7 @@ export default function FrameBuilder() {
 
           <div
             className="zoomrow"
-            style={{ display: showZoom ? 'flex' : 'none' }}
+            style={{ display: showZoom ? "flex" : "none" }}
           >
             <label>ZOOM</label>
             <input
@@ -362,24 +356,30 @@ export default function FrameBuilder() {
 
           <div
             className="actions"
-            style={{ display: showActions ? 'flex' : 'none' }}
+            style={{ display: showActions ? "flex" : "none" }}
           >
             <button
               className="btn secondary"
-              onClick={() => document.getElementById('fileInput')?.click()}
+              onClick={() => document.getElementById("fileInput")?.click()}
             >
               Change photo
             </button>
           </div>
 
-          <div className="status" style={{ display: showCanvas ? 'none' : 'block' }}>
-            Upload a photo to get started — the graphic updates live as you crop.
+          <div
+            className="status"
+            style={{ display: showCanvas ? "none" : "block" }}
+          >
+            Upload a photo to get started — the graphic updates live as you
+            crop.
           </div>
 
           <div
             className="status"
             style={{
-              color: statusMsg.includes('Error') ? '#ff5a4e' : 'rgba(246, 233, 210, 0.55)',
+              color: statusMsg.includes("Error")
+                ? "#ff5a4e"
+                : "rgba(246, 233, 210, 0.55)",
             }}
           >
             {statusMsg}
@@ -408,7 +408,7 @@ export default function FrameBuilder() {
               }))
             }
             onDiceClick={shuffleTitle}
-            visible={state.format === 'B'}
+            visible={state.format === "B"}
           />
 
           <div className="actions">
@@ -418,10 +418,11 @@ export default function FrameBuilder() {
                 try {
                   if (canvasRef.current) {
                     await downloadImage(canvasRef.current, state.format);
-                    showToast('Downloaded — ready to post.');
+                    showToast("Downloaded — ready to post.");
                   }
                 } catch (err) {
-                  const msg = err instanceof Error ? err.message : 'Download failed';
+                  const msg =
+                    err instanceof Error ? err.message : "Download failed";
                   showToast(msg);
                 }
               }}
@@ -442,13 +443,14 @@ export default function FrameBuilder() {
               onClick={async () => {
                 try {
                   if (canvasRef.current) {
-                    await shareToX(canvasRef.current, state.format, state.fields);
+                    shareToX(canvasRef.current, state.format, state.fields);
                     showToast(
-                      'Image copied — press Ctrl/Cmd+V in the tweet box that just opened to attach it.'
+                      "Image copied — press Ctrl/Cmd+V in the tweet box that just opened to attach it.",
                     );
                   }
                 } catch (err) {
-                  const msg = err instanceof Error ? err.message : 'Share failed';
+                  const msg =
+                    err instanceof Error ? err.message : "Share failed";
                   showToast(msg);
                 }
               }}
@@ -467,8 +469,8 @@ export default function FrameBuilder() {
       </div>
 
       <footer className="note">
-        Runs entirely in your browser — your photo is never uploaded anywhere. On
-        phones, "Share to X" hands the image straight to the X app via your
+        Runs entirely in your browser — your photo is never uploaded anywhere.
+        On phones, "Share to X" hands the image straight to the X app via your
         device's share sheet. On desktop, the image is copied to your clipboard
         and a pre-filled tweet opens — just press Ctrl/Cmd+V in the tweet box to
         attach it (X's composer accepts pasted images). If your browser doesn't
