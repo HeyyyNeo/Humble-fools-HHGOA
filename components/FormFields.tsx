@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
-import { FrameState } from '@/lib/types';
-import { TITLES } from '@/lib/constants';
+import { FrameState } from "@/lib/types";
 
 interface FormFieldsProps {
   state: FrameState;
@@ -23,7 +22,7 @@ export default function FormFields({
   if (!visible) return null;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <div className="field">
         <label>Name</label>
         <input

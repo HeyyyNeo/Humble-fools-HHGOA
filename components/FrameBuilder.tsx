@@ -221,7 +221,7 @@ export default function FrameBuilder() {
   );
 
   // Shuffle title
-  const shuffleTitle = () => {
+  const shuffleTitle = useCallback(() => {
     let idx;
     do {
       idx = Math.floor(Math.random() * TITLES.length);
@@ -232,14 +232,14 @@ export default function FrameBuilder() {
       ...s,
       fields: { ...s.fields, title: TITLES[idx] },
     }));
-  };
+  }, [lastTitleIdx]);
 
   // Initialize title if empty
   useEffect(() => {
     if (state.img && !state.fields.title) {
       shuffleTitle();
     }
-  }, [state.img]);
+  }, [state.img, state.fields.title, shuffleTitle]);
 
   const showCanvas = !!state.img;
   const showZoom = !!state.img;
@@ -304,8 +304,6 @@ export default function FrameBuilder() {
             className="dropzone"
             onDrop={(e) => {
               e.preventDefault();
-              const file = e.currentTarget.dataTransfer?.files?.[0];
-              if (file) handleUpload(file);
             }}
             onDragOver={(e) => {
               e.preventDefault();
@@ -470,10 +468,10 @@ export default function FrameBuilder() {
 
       <footer className="note">
         Runs entirely in your browser — your photo is never uploaded anywhere.
-        On phones, "Share to X" hands the image straight to the X app via your
-        device's share sheet. On desktop, the image is copied to your clipboard
+        On phones, &quot;Share to X&quot; hands the image straight to the X app via your
+        device&apos;s share sheet. On desktop, the image is copied to your clipboard
         and a pre-filled tweet opens — just press Ctrl/Cmd+V in the tweet box to
-        attach it (X's composer accepts pasted images). If your browser doesn't
+        attach it (X&apos;s composer accepts pasted images). If your browser doesn&apos;t
         support clipboard images, the graphic downloads instead and you can drag
         it in.
       </footer>

@@ -89,10 +89,7 @@ export async function uploadImageToVercelBlob(
   }
 }
 
-async function shareViaClipboard(
-  canvas: HTMLCanvasElement,
-  caption: string,
-): Promise<boolean> {
+async function shareViaClipboard(canvas: HTMLCanvasElement): Promise<boolean> {
   try {
     // Upload to Vercel Blob first
     const imageUrl = await uploadImageToVercelBlob(canvas, "B");
@@ -130,7 +127,7 @@ export async function shareToX(
   const caption = currentCaption(format, fields);
 
   // Try clipboard first
-  const clipboardSuccess = await shareViaClipboard(canvas, caption);
+  const clipboardSuccess = await shareViaClipboard(canvas);
   if (clipboardSuccess) {
     return;
   }

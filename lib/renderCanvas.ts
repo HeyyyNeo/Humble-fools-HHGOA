@@ -1,15 +1,10 @@
-import { CanvasSlot, FrameState } from './types';
-import {
-  SIZE_A,
-  SIZE_B_W,
-  SIZE_B_H,
-  COLORS,
-} from './constants';
+import { COLORS, SIZE_A, SIZE_B_H, SIZE_B_W } from "./constants";
+import { CanvasSlot, FrameState } from "./types";
 
-export function getSlot(format: 'A' | 'B'): CanvasSlot {
-  if (format === 'A') {
+export function getSlot(format: "A" | "B"): CanvasSlot {
+  if (format === "A") {
     return {
-      shape: 'circle',
+      shape: "circle",
       cx: 600,
       cy: 600,
       r: 430,
@@ -19,11 +14,11 @@ export function getSlot(format: 'A' | 'B'): CanvasSlot {
       h: 860,
     };
   }
-  return { shape: 'rect', x: 140, y: 210, w: 800, h: 640, r: 26 };
+  return { shape: "rect", x: 140, y: 210, w: 800, h: 640, r: 26 };
 }
 
 export function hexToRgba(hex: string, a: number): string {
-  const v = hex.replace('#', '');
+  const v = hex.replace("#", "");
   const r = parseInt(v.substring(0, 2), 16);
   const g = parseInt(v.substring(2, 4), 16);
   const b = parseInt(v.substring(4, 6), 16);
@@ -36,19 +31,20 @@ export function buildDotPattern(
   h: number,
   color: string,
   alpha: number,
-  spacing: number
+  spacing: number,
 ): CanvasPattern {
-  const pc = document.createElement('canvas');
+  console.log(w, h);
+  const pc = document.createElement("canvas");
   pc.width = spacing;
   pc.height = spacing;
-  const pctx = pc.getContext('2d')!;
-  pctx.fillStyle = 'rgba(0,0,0,0)';
+  const pctx = pc.getContext("2d")!;
+  pctx.fillStyle = "rgba(0,0,0,0)";
   pctx.fillRect(0, 0, spacing, spacing);
   pctx.fillStyle = hexToRgba(color, alpha);
   pctx.beginPath();
   pctx.arc(spacing / 2, spacing / 2, 1.6, 0, Math.PI * 2);
   pctx.fill();
-  return ctx.createPattern(pc, 'repeat')!;
+  return ctx.createPattern(pc, "repeat")!;
 }
 
 export function roundRectPath(
@@ -57,7 +53,7 @@ export function roundRectPath(
   y: number,
   w: number,
   h: number,
-  r: number
+  r: number,
 ): void {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -75,7 +71,7 @@ export function fitFontSize(
   maxSize: number,
   minSize: number,
   weight: string,
-  family: string
+  family: string,
 ): number {
   let size = maxSize;
   ctx.font = `${weight} ${size}px ${family}`;
@@ -95,15 +91,15 @@ export function drawArcText(
   startAngle: number,
   color: string,
   font: string,
-  spacing: number
+  spacing: number,
 ): void {
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(startAngle);
   ctx.font = font;
   ctx.fillStyle = color;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   for (let i = 0; i < text.length; i++) {
     const ch = text[i];
     const w = ctx.measureText(ch).width + spacing;
@@ -122,10 +118,10 @@ export function drawPhoto(
   ctx: CanvasRenderingContext2D,
   img: HTMLImageElement,
   slot: CanvasSlot,
-  state: FrameState
+  state: FrameState,
 ): void {
   ctx.save();
-  if (slot.shape === 'circle') {
+  if (slot.shape === "circle") {
     ctx.beginPath();
     ctx.arc(slot.cx!, slot.cy!, slot.r!, 0, Math.PI * 2);
     ctx.clip();
@@ -135,8 +131,8 @@ export function drawPhoto(
   }
   const drawW = state.imgW * state.scale;
   const drawH = state.imgH * state.scale;
-  const slotCx = slot.shape === 'circle' ? slot.cx! : slot.x! + slot.w! / 2;
-  const slotCy = slot.shape === 'circle' ? slot.cy! : slot.y! + slot.h! / 2;
+  const slotCx = slot.shape === "circle" ? slot.cx! : slot.x! + slot.w! / 2;
+  const slotCy = slot.shape === "circle" ? slot.cy! : slot.y! + slot.h! / 2;
   const dx = slotCx - state.cx * state.scale;
   const dy = slotCy - state.cy * state.scale;
   ctx.drawImage(img, dx, dy, drawW, drawH);
@@ -148,7 +144,7 @@ export function drawStamp(
   cx: number,
   cy: number,
   r: number,
-  rot: number
+  rot: number,
 ): void {
   ctx.save();
   ctx.translate(cx, cy);
@@ -165,19 +161,19 @@ export function drawStamp(
   ctx.stroke();
   ctx.fillStyle = COLORS.navy;
   ctx.font = '700 15px "Space Grotesk"';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('2026', cx, cy + 4);
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("2026", cx, cy + 4);
   drawArcText(
     ctx,
-    '✦ GOA ✦ 15.30N ',
+    "✦ GOA ✦ 15.30N ",
     cx,
     cy,
     r - 20,
     -Math.PI / 2,
     COLORS.navy,
     '600 9px "IBM Plex Mono"',
-    1.5
+    1.5,
   );
   ctx.restore();
 }
@@ -186,7 +182,7 @@ export function drawMiniMark(
   ctx: CanvasRenderingContext2D,
   cx: number,
   cy: number,
-  r: number
+  r: number,
 ): void {
   ctx.save();
   ctx.strokeStyle = COLORS.gold;
@@ -196,11 +192,16 @@ export function drawMiniMark(
   ctx.stroke();
   ctx.strokeStyle = COLORS.teal;
   ctx.lineWidth = 2.4;
-  ctx.lineCap = 'round';
+  ctx.lineCap = "round";
   ctx.beginPath();
   ctx.moveTo(cx - r * 0.55, cy + r * 0.15);
   ctx.quadraticCurveTo(cx - r * 0.2, cy - r * 0.15, cx, cy + r * 0.15);
-  ctx.quadraticCurveTo(cx + r * 0.3, cy + r * 0.4, cx + r * 0.55, cy + r * 0.15);
+  ctx.quadraticCurveTo(
+    cx + r * 0.3,
+    cy + r * 0.4,
+    cx + r * 0.55,
+    cy + r * 0.15,
+  );
   ctx.stroke();
   ctx.fillStyle = COLORS.coral;
   ctx.beginPath();
@@ -215,12 +216,12 @@ export function builderNumber(seedStr: string): string {
     h = (h * 31 + seedStr.charCodeAt(i)) >>> 0;
   }
   const n = (h % 900) + 100;
-  return '#' + String(n).padStart(4, '0');
+  return "#" + String(n).padStart(4, "0");
 }
 
 export function renderA(
   ctx: CanvasRenderingContext2D,
-  state: FrameState
+  state: FrameState,
 ): void {
   const W = SIZE_A;
   const H = SIZE_A;
@@ -237,13 +238,13 @@ export function renderA(
   const sunset = ctx.createRadialGradient(600, 600, 120, 600, 600, 600);
   sunset.addColorStop(0, hexToRgba(COLORS.gold, 0.35));
   sunset.addColorStop(0.55, hexToRgba(COLORS.coral, 0.16));
-  sunset.addColorStop(1, 'rgba(10,14,26,0)');
+  sunset.addColorStop(1, "rgba(10,14,26,0)");
   ctx.fillStyle = sunset;
   ctx.beginPath();
   ctx.arc(600, 600, 600, 0, Math.PI * 2);
   ctx.fill();
 
-  const slot = getSlot('A');
+  const slot = getSlot("A");
   if (state.img) {
     drawPhoto(ctx, state.img, slot, state);
   } else {
@@ -254,7 +255,9 @@ export function renderA(
   }
 
   // ring
-  const ringGrad = ctx.createConicGradient ? ctx.createConicGradient(0, 600, 600) : null;
+  const ringGrad = ctx.createConicGradient
+    ? ctx.createConicGradient(0, 600, 600)
+    : null;
   if (ringGrad) {
     ringGrad.addColorStop(0, COLORS.coral);
     ringGrad.addColorStop(0.33, COLORS.pink);
@@ -278,7 +281,7 @@ export function renderA(
   ctx.stroke();
 
   // arc text ring
-  const arcStr = 'HH GOA 2026 ✦ BUILDER EDITION ✦ ';
+  const arcStr = "HH GOA 2026 ✦ BUILDER EDITION ✦ ";
   const full = arcStr.repeat(3);
   drawArcText(
     ctx,
@@ -289,7 +292,7 @@ export function renderA(
     -Math.PI / 2,
     hexToRgba(COLORS.sand, 0.85),
     '600 21px "IBM Plex Mono"',
-    3
+    3,
   );
 
   // tide stamp
@@ -304,7 +307,7 @@ export function renderA(
 
 export function renderB(
   ctx: CanvasRenderingContext2D,
-  state: FrameState
+  state: FrameState,
 ): void {
   const W = SIZE_B_W;
   const H = SIZE_B_H;
@@ -332,14 +335,14 @@ export function renderB(
 
   ctx.fillStyle = COLORS.sand;
   ctx.font = '700 34px "Space Grotesk"';
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('HH GOA', 56, 62);
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillText("HH GOA", 56, 62);
   ctx.fillStyle = COLORS.gold;
-  ctx.fillText('2026', 56, 100);
+  ctx.fillText("2026", 56, 100);
   ctx.font = '600 11px "IBM Plex Mono"';
   ctx.fillStyle = hexToRgba(COLORS.sand, 0.6);
-  ctx.fillText('BUILDER ACCESS PASS', 56 + 150, 100);
+  ctx.fillText("BUILDER ACCESS PASS", 56 + 150, 100);
 
   drawMiniMark(ctx, W - 95, 75, 34);
 
@@ -354,12 +357,12 @@ export function renderB(
   ctx.setLineDash([]);
 
   // photo frame
-  const slot = getSlot('B');
+  const slot = getSlot("B");
   const borderGrad = ctx.createLinearGradient(
     slot.x!,
     slot.y!,
     slot.x! + slot.w!,
-    slot.y! + slot.h!
+    slot.y! + slot.h!,
   );
   borderGrad.addColorStop(0, COLORS.coral);
   borderGrad.addColorStop(0.5, COLORS.pink);
@@ -370,7 +373,7 @@ export function renderB(
     slot.y! - 8,
     slot.w! + 16,
     slot.h! + 16,
-    slot.r! + 8
+    slot.r! + 8,
   );
   ctx.fillStyle = borderGrad;
   ctx.fill();
@@ -383,16 +386,16 @@ export function renderB(
     ctx.fill();
     ctx.fillStyle = hexToRgba(COLORS.sand, 0.4);
     ctx.font = '500 16px "IBM Plex Mono"';
-    ctx.textAlign = 'center';
+    ctx.textAlign = "center";
     ctx.fillText(
-      'Your photo goes here',
+      "Your photo goes here",
       slot.x! + slot.w! / 2,
-      slot.y! + slot.h! / 2
+      slot.y! + slot.h! / 2,
     );
   }
 
   // name
-  const name = (state.fields.name || 'Your Name').trim() || 'Your Name';
+  const name = (state.fields.name || "Your Name").trim() || "Your Name";
   const nameY = slot.y! + slot.h! + 64;
   const nameSize = fitFontSize(
     ctx,
@@ -400,18 +403,19 @@ export function renderB(
     W - 160,
     54,
     28,
-    '700',
-    '"Space Grotesk"'
+    "700",
+    '"Space Grotesk"',
   );
   ctx.font = `700 ${nameSize}px "Space Grotesk"`;
   ctx.fillStyle = COLORS.navy;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
+  ctx.textAlign = "center";
+  ctx.textBaseline = "alphabetic";
   ctx.fillText(name, W / 2, nameY);
 
   // role chip
-  const role = (state.fields.role || 'Full-Stack Builder').trim() || 'Full-Stack Builder';
-  const roleText = '</> ' + role;
+  const role =
+    (state.fields.role || "Full-Stack Builder").trim() || "Full-Stack Builder";
+  const roleText = "</> " + role;
   ctx.font = '600 17px "IBM Plex Mono"';
   const roleSize = fitFontSize(
     ctx,
@@ -419,8 +423,8 @@ export function renderB(
     W - 220,
     17,
     12,
-    '600',
-    '"IBM Plex Mono"'
+    "600",
+    '"IBM Plex Mono"',
   );
   ctx.font = `600 ${roleSize}px "IBM Plex Mono"`;
   const rw = ctx.measureText(roleText).width + 40;
@@ -430,26 +434,28 @@ export function renderB(
   ctx.fillStyle = COLORS.navy;
   ctx.fill();
   ctx.fillStyle = COLORS.teal;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   ctx.fillText(roleText, W / 2, ry + rh / 2 + 1);
 
   // builder title
   const titleY = ry + rh + 58;
   ctx.font = '600 12px "IBM Plex Mono"';
   ctx.fillStyle = hexToRgba(COLORS.navy, 0.5);
-  ctx.textAlign = 'center';
-  ctx.fillText('B U I L D E R   T I T L E', W / 2, titleY);
+  ctx.textAlign = "center";
+  ctx.fillText("B U I L D E R   T I T L E", W / 2, titleY);
 
-  const title = (state.fields.title || 'Full-Stack Wave Rider').trim() || 'Full-Stack Wave Rider';
+  const title =
+    (state.fields.title || "Full-Stack Wave Rider").trim() ||
+    "Full-Stack Wave Rider";
   const titleSize = fitFontSize(
     ctx,
     title,
     W - 140,
     40,
     22,
-    '700',
-    '"Space Grotesk"'
+    "700",
+    '"Space Grotesk"',
   );
   ctx.font = `700 ${titleSize}px "Space Grotesk"`;
   const tg = ctx.createLinearGradient(W / 2 - 200, 0, W / 2 + 200, 0);
@@ -481,24 +487,24 @@ export function renderB(
   ctx.fillStyle = fg;
   ctx.fillRect(0, H - 150, W, 6);
 
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'middle';
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
   ctx.font = '700 16px "Space Grotesk"';
   ctx.fillStyle = COLORS.sand;
-  ctx.fillText('HH GOA 2026', 56, H - 100);
+  ctx.fillText("HH GOA 2026", 56, H - 100);
   ctx.font = '500 11px "IBM Plex Mono"';
   ctx.fillStyle = hexToRgba(COLORS.sand, 0.55);
-  ctx.fillText('15.2993° N · 74.1240° E', 56, H - 76);
+  ctx.fillText("15.2993° N · 74.1240° E", 56, H - 76);
 
-  ctx.textAlign = 'center';
+  ctx.textAlign = "center";
   ctx.font = '600 15px "IBM Plex Mono"';
   ctx.fillStyle = COLORS.gold;
-  ctx.fillText('#FrameInGoa', W / 2, H - 88);
+  ctx.fillText("#FrameInGoa", W / 2, H - 88);
 
-  ctx.textAlign = 'right';
+  ctx.textAlign = "right";
   ctx.font = '600 11px "IBM Plex Mono"';
   ctx.fillStyle = hexToRgba(COLORS.sand, 0.55);
-  ctx.fillText('BUILDER NO.', W - 56, H - 100);
+  ctx.fillText("BUILDER NO.", W - 56, H - 100);
   ctx.font = '700 20px "IBM Plex Mono"';
   ctx.fillStyle = COLORS.sand;
   ctx.fillText(builderNumber(name), W - 56, H - 76);
