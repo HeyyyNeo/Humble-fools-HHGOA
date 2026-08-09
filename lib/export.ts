@@ -89,16 +89,18 @@ export async function uploadImageToVercelBlob(
   }
 }
 
-async function shareViaClipboard(canvas: HTMLCanvasElement): Promise<boolean> {
+async function shareViaClipboard(
+  canvas: HTMLCanvasElement,
+  caption,
+): Promise<boolean> {
   try {
     // Upload to Vercel Blob first
     const imageUrl = await uploadImageToVercelBlob(canvas, "B");
     console.log("Image uploaded:", imageUrl);
 
-    // const tweetUrl =
-    //   'https://twitter.com/intent/tweet?text=' +
-    //   encodeURIComponent(caption);
-    // window.open(tweetUrl, '_blank');
+    const tweetUrl =
+      "https://twitter.com/intent/tweet?text=" + encodeURIComponent(caption);
+    window.open(tweetUrl, "_blank");
 
     return true;
   } catch (error) {
@@ -127,7 +129,7 @@ export async function shareToX(
   const caption = currentCaption(format, fields);
 
   // Try clipboard first
-  const clipboardSuccess = await shareViaClipboard(canvas);
+  const clipboardSuccess = await shareViaClipboard(canvas, caption);
   if (clipboardSuccess) {
     return;
   }
