@@ -55,8 +55,9 @@ export async function downloadImage(
 export async function uploadImageToVercelBlob(
   canvas: HTMLCanvasElement,
   format: "A" | "B",
-): Promise<string> {
+) {
   const blob = await canvasToBlob(canvas);
+  console.log(blob, format);
 }
 
 async function shareViaClipboard(
