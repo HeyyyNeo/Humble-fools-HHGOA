@@ -4,12 +4,9 @@ import { FrameState } from '@/lib/types';
 
 interface ControlsProps {
   state: FrameState;
-  onFormatChange: (format: 'A' | 'B') => void;
   onUpload: (file: File) => void;
   onChangePhoto: () => void;
   onZoomChange: (zoom: number) => void;
-  onDownload: () => void;
-  onShare: () => void;
   statusMsg: string;
   showCanvas: boolean;
   showZoom: boolean;
@@ -18,12 +15,9 @@ interface ControlsProps {
 
 export default function Controls({
   state,
-  onFormatChange,
   onUpload,
   onChangePhoto,
   onZoomChange,
-  onDownload,
-  onShare,
   statusMsg,
   showCanvas,
   showZoom,
@@ -56,23 +50,6 @@ export default function Controls({
 
   return (
     <div className="stage-col">
-      <div
-        className="tabs"
-        style={{ display: 'flex' }}
-      >
-        <button
-          className={`tab ${state.format === 'A' ? 'active' : ''}`}
-          onClick={() => onFormatChange('A')}
-        >
-          PFP Frame
-        </button>
-        <button
-          className={`tab ${state.format === 'B' ? 'active' : ''}`}
-          onClick={() => onFormatChange('B')}
-        >
-          Builder ID Card
-        </button>
-      </div>
 
       <div
         className="dropzone"

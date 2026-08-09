@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, forwardRef } from 'react';
 import { FrameState } from '@/lib/types';
 import { SIZE_A, SIZE_B_W, SIZE_B_H } from '@/lib/constants';
 
@@ -12,56 +12,64 @@ interface CanvasProps {
   onWheel: (e: WheelEvent) => void;
 }
 
-export default function Canvas({
-  state,
-  onDragStart,
-  onDragMove,
-  onDragEnd,
-  onWheel,
-}: CanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
+  ({ state, onDragStart, onDragMove, onDragEnd, onWheel }, ref) => {
+    const internalRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef = (ref as React.RefObject<HTMLCanvasElement>) || internalRef;
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    useEffect(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
 
-    if (state.format === 'A') {
-      canvas.width = SIZE_A;
-      canvas.height = SIZE_A;
-    } else {
-      canvas.width = SIZE_B_W;
-      canvas.height = SIZE_B_H;
-    }
-  }, [state.format]);
+      if (state.format === 'A') {
+        canvas.width = SIZE_A;
+        canvas.height = SIZE_A;
+      } else {
+        canvas.width = SIZE_B_W;
+        canvas.height = SIZE_B_H;
+      }
+    }, [state.format, canvasRef]);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    useEffect(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
 
-    canvas.addEventListener('wheel', onWheel as EventListener, { passive: false });
-    return () => canvas.removeEventListener('wheel', onWheel as EventListener);
-  }, [onWheel]);
+      const handleWheel = (e: WheelEvent) => {
+        e.preventDefault();
+        onWheel(e);
+      };
 
-  return (
-    <div
-      className="canvas-shell"
-      style={{
-        display: state.img ? 'flex' : 'none',
-      }}
-    >
-      <canvas
-        ref={canvasRef}
-        id="stage"
-        className={state.dragging ? 'dragging' : ''}
-        onPointerDown={onDragStart}
-        onPointerMove={onDragMove}
-        onPointerUp={onDragEnd}
-        onPointerCancel={onDragEnd}
-        onPointerLeave={onDragEnd}
-      />
-      <div className="hint" id="dragHint">
-        Drag to reposition
+      canvas.addEventListener('wheel', handleWheel as EventListener, {
+        passive: false,
+      });
+      return () =>
+        canvas.removeEventListener('wheel', handleWheel as EventListener);
+    }, [onWheel, canvasRef]);
+
+    return (
+      <div
+        className="canvas-shell"
+        style={{
+          display: state.img ? 'flex' : 'none',
+        }}
+      >
+        <canvas
+          ref={canvasRef}
+          id="stage"
+          className={state.dragging ? 'dragging' : ''}
+          onPointerDown={onDragStart}
+          onPointerMove={onDragMove}
+          onPointerUp={onDragEnd}
+          onPointerCancel={onDragEnd}
+        />
+        <div className="hint" id="dragHint">
+          Drag to reposition
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
+
+Canvas.displayName = 'Canvas';
+
+export default Canvas;

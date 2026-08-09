@@ -15,7 +15,6 @@ import {
 } from '@/lib/export';
 import Canvas from './Canvas';
 import FormFields from './FormFields';
-import Controls from './Controls';
 
 export default function FrameBuilder() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -291,54 +290,100 @@ export default function FrameBuilder() {
       </p>
 
       <div className="panel">
-        <div>
-          <Controls
-            state={state}
-            onFormatChange={handleFormatChange}
-            onUpload={handleUpload}
-            onChangePhoto={() => document.getElementById('fileInput')?.click()}
-            onZoomChange={handleZoomChange}
-            onDownload={async () => {
-              try {
-                if (canvasRef.current) {
-                  await downloadImage(canvasRef.current, state.format);
-                  showToast('Downloaded — ready to post.');
-                }
-              } catch (err) {
-                const msg = err instanceof Error ? err.message : 'Download failed';
-                showToast(msg);
-              }
+        <div className="stage-col">
+          <div className="tabs">
+            <button
+              className={`tab ${state.format === 'A' ? 'active' : ''}`}
+              onClick={() => handleFormatChange('A')}
+            >
+              PFP Frame
+            </button>
+            <button
+              className={`tab ${state.format === 'B' ? 'active' : ''}`}
+              onClick={() => handleFormatChange('B')}
+            >
+              Builder ID Card
+            </button>
+          </div>
+
+          <div
+            className="dropzone"
+            onDrop={(e) => {
+              e.preventDefault();
+              const file = e.currentTarget.dataTransfer?.files?.[0];
+              if (file) handleUpload(file);
             }}
-            onShare={async () => {
-              try {
-                if (canvasRef.current) {
-                  await shareToX(canvasRef.current, state.format, state.fields);
-                  showToast(
-                    'Image copied — press Ctrl/Cmd+V in the tweet box that just opened to attach it.'
-                  );
-                }
-              } catch (err) {
-                const msg = err instanceof Error ? err.message : 'Share failed';
-                showToast(msg);
-              }
+            onDragOver={(e) => {
+              e.preventDefault();
+              e.currentTarget.classList.add('over');
             }}
-            statusMsg={statusMsg}
-            showCanvas={showCanvas}
-            showZoom={showZoom}
-            showActions={showActions}
-          />
+            onDragLeave={(e) => {
+              e.preventDefault();
+              e.currentTarget.classList.remove('over');
+            }}
+            onClick={() => document.getElementById('fileInput')?.click()}
+            style={{ display: showCanvas ? 'none' : 'block' }}
+          >
+            <div className="big">Drop a photo here, or tap to upload</div>
+            <div className="small">JPG · PNG · HEIC (iPhone) — up to 25MB</div>
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*,.heic,.heif"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleUpload(file);
+              }}
+            />
+          </div>
+
           <Canvas
+            ref={canvasRef}
             state={state}
             onDragStart={handleDragStart}
             onDragMove={handleDragMove}
             onDragEnd={handleDragEnd}
             onWheel={handleWheel}
           />
-          <canvas
-            ref={canvasRef}
-            id="stage"
-            style={{ display: 'none' }}
-          />
+
+          <div
+            className="zoomrow"
+            style={{ display: showZoom ? 'flex' : 'none' }}
+          >
+            <label>ZOOM</label>
+            <input
+              type="range"
+              min="100"
+              max="320"
+              value={state.zoomPct}
+              onChange={(e) => handleZoomChange(parseInt(e.target.value, 10))}
+            />
+          </div>
+
+          <div
+            className="actions"
+            style={{ display: showActions ? 'flex' : 'none' }}
+          >
+            <button
+              className="btn secondary"
+              onClick={() => document.getElementById('fileInput')?.click()}
+            >
+              Change photo
+            </button>
+          </div>
+
+          <div className="status" style={{ display: showCanvas ? 'none' : 'block' }}>
+            Upload a photo to get started — the graphic updates live as you crop.
+          </div>
+
+          <div
+            className="status"
+            style={{
+              color: statusMsg.includes('Error') ? '#ff5a4e' : 'rgba(246, 233, 210, 0.55)',
+            }}
+          >
+            {statusMsg}
+          </div>
         </div>
 
         <div className="form-col">
