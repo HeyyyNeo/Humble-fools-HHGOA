@@ -52,22 +52,14 @@ export async function downloadImage(
   }, 4000);
 }
 
-export async function uploadImageToVercelBlob(
-  canvas: HTMLCanvasElement,
-  format: "A" | "B",
-) {
-  const blob = await canvasToBlob(canvas);
-  console.log(blob, format);
-}
-
 async function shareViaClipboard(
   canvas: HTMLCanvasElement,
   caption: any,
 ): Promise<boolean> {
   try {
     // Upload to Vercel Blob first
-    const imageUrl = await uploadImageToVercelBlob(canvas, "B");
-    console.log("Image uploaded:", imageUrl);
+    const blob = await canvasToBlob(canvas);
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
 
     const tweetUrl =
       "https://twitter.com/intent/tweet?text=" + encodeURIComponent(caption);
