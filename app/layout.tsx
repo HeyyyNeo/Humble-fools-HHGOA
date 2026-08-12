@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'HH Goa 2026 — Frame In Goa',
-  description: 'Turn your photo into an HH Goa 2026 flex.',
+  title: 'Hacker House GOA 2026 — Official Builder Pass & PFP Creator',
+  description: 'Create your official Hacker House GOA 2026 builder ID card or profile photo frame. No gatekeeping.',
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <div className="wrap">{children}</div>
+        {children}
       </body>
     </html>
   );

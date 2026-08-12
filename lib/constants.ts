@@ -13,6 +13,16 @@ export const COLORS: ColorMap = {
   pink: "#FF2F87",
   gold: "#FFB238",
   teal: "#1FD1B0",
+  // New palette for redesigned frames
+  darkGreen: "#1A3320",
+  forest: "#2D5A3D",
+  cream: "#E8DFC5",
+  cream2: "#D6CCAC",
+  rust: "#C9371A",
+  mustard: "#F0C030",
+  blush: "#F0B8B8",
+  charcoal: "#1C1C1C",
+  offwhite: "#F5F0E8",
 };
 
 export const TITLES = [

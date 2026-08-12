@@ -39,4 +39,14 @@ export interface ColorMap {
   pink: string;
   gold: string;
   teal: string;
+  // New palette
+  darkGreen: string;
+  forest: string;
+  cream: string;
+  cream2: string;
+  rust: string;
+  mustard: string;
+  blush: string;
+  charcoal: string;
+  offwhite: string;
 }
