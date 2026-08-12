@@ -155,7 +155,6 @@ export function builderNumber(seedStr: string): string {
 function drawCircuitPattern(
   ctx: CanvasRenderingContext2D,
   W: number,
-  H: number,
 ): void {
   ctx.save();
   ctx.strokeStyle = hexToRgba(COLORS.cream, 0.12);
@@ -413,7 +412,7 @@ export function renderA(
   ctx.fillRect(0, 0, W, H);
 
   // ── Circuit board line pattern ──
-  drawCircuitPattern(ctx, W, H);
+  drawCircuitPattern(ctx, W);
 
   // ── Cream inner frame (square inset) ──
   const inset = 80;
