@@ -240,51 +240,34 @@ export default function FrameBuilder() {
             <small>Builder Edition · 2026</small>
           </div>
         </div>
-        <div className="hh-label">HACKER HOUSE GOA</div>
+
+        {/* Top Right Header Tag with Circuit Lines */}
+        <div className="header-right-tag">
+          <svg className="header-circuit" width="120" height="40" viewBox="0 0 120 40" fill="none">
+            <path d="M10 20 H60 L80 5 H110" stroke="#1A3320" strokeWidth="1.5" strokeOpacity="0.4"/>
+            <path d="M30 20 L45 35 H90" stroke="#D4246A" strokeWidth="1.5" strokeOpacity="0.4"/>
+            <circle cx="110" cy="5" r="3" fill="#1A3320"/>
+            <circle cx="90" cy="35" r="3" fill="#D4246A"/>
+          </svg>
+          <div className="hh-label">HACKER HOUSE GOA</div>
+        </div>
       </header>
 
       {/* ── HERO SECTION ── */}
       <div className="hero-section">
-        {/* Decorative: sun top-left */}
-        <div className="deco-wrap" style={{ top: 20, left: 20 }}>
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <path d="M24 6 L24 2" stroke="#D4246A" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M24 46 L24 42" stroke="#D4246A" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M6 24 L2 24" stroke="#D4246A" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M46 24 L42 24" stroke="#D4246A" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M10.4 10.4 L7.6 7.6" stroke="#D4246A" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M40.4 40.4 L37.6 37.6" stroke="#D4246A" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M37.6 10.4 L40.4 7.6" stroke="#D4246A" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M7.6 40.4 L10.4 37.6" stroke="#D4246A" strokeWidth="2.5" strokeLinecap="round"/>
-            <circle cx="24" cy="24" r="10" fill="#F5C0C0" stroke="#D4246A" strokeWidth="2"/>
+        {/* Decorative: pink sun & circuit line top-right */}
+        <div className="deco-wrap" style={{ top: 10, right: 30 }}>
+          <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="40" r="12" fill="#F5C0C0" stroke="#D4246A" strokeWidth="2"/>
+            <path d="M50 18 V10 M50 62 V70 M28 40 H20 M72 40 H80" stroke="#D4246A" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M34 24 L28 18 M66 56 L72 62 M66 24 L72 18 M34 56 L28 62" stroke="#D4246A" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M50 70 C 50 85, 30 90, 10 90" stroke="#1A3320" strokeWidth="1.5" strokeOpacity="0.4"/>
           </svg>
         </div>
 
-        {/* Decorative: circuit node top-right area */}
-        <div className="deco-wrap" style={{ top: 30, right: 160 }}>
-          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-            <circle cx="26" cy="26" r="5" fill="#1C1C1C" fillOpacity="0.35"/>
-            <line x1="26" y1="2" x2="26" y2="18" stroke="#1C1C1C" strokeOpacity="0.3" strokeWidth="2"/>
-            <line x1="26" y1="34" x2="26" y2="50" stroke="#1C1C1C" strokeOpacity="0.3" strokeWidth="2"/>
-            <line x1="2" y1="26" x2="18" y2="26" stroke="#1C1C1C" strokeOpacity="0.3" strokeWidth="2"/>
-            <line x1="34" y1="26" x2="50" y2="26" stroke="#1C1C1C" strokeOpacity="0.3" strokeWidth="2"/>
-            <circle cx="26" cy="2" r="3" fill="#1C1C1C" fillOpacity="0.3"/>
-            <circle cx="26" cy="50" r="3" fill="#1C1C1C" fillOpacity="0.3"/>
-            <circle cx="2" cy="26" r="3" fill="#1C1C1C" fillOpacity="0.3"/>
-            <circle cx="50" cy="26" r="3" fill="#1C1C1C" fillOpacity="0.3"/>
-          </svg>
+        <div className="hero-eyebrow">
+          <span className="dot-red">●</span> OFFICIAL NGOA 2026 IDENTITY BUILDER
         </div>
-
-        {/* Decorative: plant/botanical top-right */}
-        <div className="deco-wrap" style={{ top: -10, right: 24 }}>
-          <svg width="80" height="100" viewBox="0 0 80 100" fill="none">
-            <path d="M40 90 C40 90 20 60 30 30 C35 15 55 10 60 25 C65 40 45 55 40 90Z" fill="#2D5A3D" fillOpacity="0.7"/>
-            <path d="M40 90 C40 90 60 65 45 35 C38 20 18 20 20 38 C22 55 40 65 40 90Z" fill="#1A3320" fillOpacity="0.6"/>
-            <line x1="40" y1="90" x2="40" y2="30" stroke="#1A3320" strokeOpacity="0.4" strokeWidth="1.5"/>
-          </svg>
-        </div>
-
-        <div className="hero-eyebrow">OFFICIAL NGOA 2026 IDENTITY BUILDER</div>
 
         <h1 className="hero">
           CHOOSE<br />
@@ -293,235 +276,225 @@ export default function FrameBuilder() {
         </h1>
 
         <div className="hero-subtitle">
-          HACKER HOUSE GO<span style={{color:'#C9371A'}}>★</span>A 2026<br />
+          HACKER HOUSE GO<span style={{ color: "#C9371A", fontFamily: "sans-serif" }}>गोवा</span> 2026<br />
           OFFICIAL BUILDER PASS &amp; PFP CREATOR
         </div>
 
-        <div style={{ marginTop: 16 }}>
-          <span className="badge-stamp">★ NO GATEKEEPING ★</span>
+        <div style={{ marginTop: 20 }}>
+          <span className="badge-stamp-teal">★ NO GATEKEEPING ★</span>
         </div>
       </div>
 
-      {/* ── MAIN PANEL ── */}
+      {/* ── MAIN WORKSPACE CONTAINER ("CHOOSE YOUR PROOF.") ── */}
       <div className="page-wrap">
-        <div className="choose-proof-label">CHOOSE YOUR PROOF.</div>
-
-        <div className="panel">
-          {/* ── LEFT: Stage column ── */}
-          <div className="stage-col">
-            {/* Frame selector tabs */}
-            <div>
-              <div className="section-label">SELECTED FRAME</div>
-              <div className="tabs">
-                <button
-                  id="tab-pfp"
-                  className={`tab ${state.format === "A" ? "active" : ""}`}
-                  onClick={() => handleFormatChange("A")}
-                >
-                  PFP Frame
-                </button>
-                <button
-                  id="tab-id"
-                  className={`tab ${state.format === "B" ? "active" : ""}`}
-                  onClick={() => handleFormatChange("B")}
-                >
-                  Builder ID Card
-                </button>
-              </div>
-              <div className="frame-info">
-                {state.format === "A"
-                  ? "Square 1:1 · Best for profile photos on X / Discord"
-                  : "Portrait 4:5 · Hacker House GOA official ID card"}
-              </div>
+        <div className="dark-workspace-panel">
+          {/* Panel Top Header Bar */}
+          <div className="dark-panel-header">
+            <div className="choose-proof-title">CHOOSE YOUR PROOF.</div>
+            <div className="tabs">
+              <button
+                id="tab-pfp"
+                className={`tab ${state.format === "A" ? "active" : ""}`}
+                onClick={() => handleFormatChange("A")}
+              >
+                PFP FRAME
+              </button>
+              <button
+                id="tab-id"
+                className={`tab ${state.format === "B" ? "active" : ""}`}
+                onClick={() => handleFormatChange("B")}
+              >
+                ID CARD
+              </button>
             </div>
+          </div>
 
-            {/* Dropzone */}
-            <div
-              className="dropzone"
-              id="dropzone"
-              onDrop={(e) => {
-                e.preventDefault();
-                e.currentTarget.classList.remove("over");
-                const file = e.dataTransfer.files?.[0];
-                if (file) handleUpload(file);
-              }}
-              onDragOver={(e) => {
-                e.preventDefault();
-                e.currentTarget.classList.add("over");
-              }}
-              onDragLeave={(e) => {
-                e.preventDefault();
-                e.currentTarget.classList.remove("over");
-              }}
-              onClick={() => document.getElementById("fileInput")?.click()}
-              style={{ display: showCanvas ? "none" : "block" }}
-            >
-              <div className="big">Drop a photo here, or tap to upload</div>
-              <div className="small">JPG · PNG · HEIC (iPhone) — up to 25 MB</div>
-              <input
-                id="fileInput"
-                type="file"
-                accept="image/*,.heic,.heif"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
+          <div className="panel-content-grid">
+            {/* ── LEFT: Stage Column ── */}
+            <div className="stage-col">
+              {/* Dropzone */}
+              <div
+                className="dropzone-dark"
+                id="dropzone"
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.currentTarget.classList.remove("over");
+                  const file = e.dataTransfer.files?.[0];
                   if (file) handleUpload(file);
                 }}
-              />
-            </div>
-
-            {/* Canvas */}
-            <Canvas
-              ref={canvasRef}
-              state={state}
-              onDragStart={handleDragStart}
-              onDragMove={handleDragMove}
-              onDragEnd={handleDragEnd}
-              onWheel={handleWheel}
-            />
-
-            {/* Zoom row */}
-            <div className="zoomrow" style={{ display: showZoom ? "flex" : "none" }}>
-              <label>ZOOM</label>
-              <input
-                type="range"
-                min="100"
-                max="320"
-                value={state.zoomPct}
-                onChange={(e) => handleZoomChange(parseInt(e.target.value, 10))}
-              />
-            </div>
-
-            {/* Change photo */}
-            <div className="actions" style={{ display: showActions ? "flex" : "none" }}>
-              <button
-                id="change-photo-btn"
-                className="btn secondary"
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.currentTarget.classList.add("over");
+                }}
+                onDragLeave={(e) => {
+                  e.preventDefault();
+                  e.currentTarget.classList.remove("over");
+                }}
                 onClick={() => document.getElementById("fileInput")?.click()}
+                style={{ display: showCanvas ? "none" : "block" }}
               >
-                Change photo
-              </button>
+                <div className="big">Drop a photo here, or tap to upload</div>
+                <div className="small">JPG · PNG · HEIC (iPhone) — up to 25 MB</div>
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept="image/*,.heic,.heif"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleUpload(file);
+                  }}
+                />
+              </div>
+
+              {/* Canvas */}
+              <Canvas
+                ref={canvasRef}
+                state={state}
+                onDragStart={handleDragStart}
+                onDragMove={handleDragMove}
+                onDragEnd={handleDragEnd}
+                onWheel={handleWheel}
+              />
+
+              {/* Zoom controls */}
+              <div className="zoomrow-dark" style={{ display: showZoom ? "flex" : "none" }}>
+                <label>ZOOM</label>
+                <input
+                  type="range"
+                  min="100"
+                  max="320"
+                  value={state.zoomPct}
+                  onChange={(e) => handleZoomChange(parseInt(e.target.value, 10))}
+                />
+              </div>
+
+              {/* Change photo */}
+              <div className="actions" style={{ display: showActions ? "flex" : "none" }}>
+                <button
+                  id="change-photo-btn"
+                  className="btn secondary-dark"
+                  onClick={() => document.getElementById("fileInput")?.click()}
+                >
+                  Change photo
+                </button>
+              </div>
+
+              <div
+                className="status"
+                style={{
+                  color: statusMsg.includes("Error") ? "#FF5A4E" : "rgba(232,223,197,0.6)",
+                }}
+              >
+                {statusMsg}
+              </div>
             </div>
 
-            {/* Status when no photo */}
-            <div className="status" style={{ display: showCanvas ? "none" : "block" }}>
-              Upload a photo to get started — the graphic updates live as you crop.
-            </div>
+            {/* ── RIGHT: Form & Action Buttons Column ── */}
+            <div className="form-col">
+              <div className="selected-frame-pill">
+                SELECTED FRAME OPTION (HACKER HOUSE GOA 2026 V.1)
+              </div>
 
-            <div
-              className="status"
-              style={{
-                color: statusMsg.includes("Error") ? "#C9371A" : "rgba(28,28,28,0.45)",
-              }}
-            >
-              {statusMsg}
+              <FormFields
+                state={state}
+                onNameChange={(name) =>
+                  setState((s) => ({ ...s, fields: { ...s.fields, name } }))
+                }
+                onRoleChange={(role) =>
+                  setState((s) => ({ ...s, fields: { ...s.fields, role } }))
+                }
+                onTitleChange={(title) =>
+                  setState((s) => ({ ...s, fields: { ...s.fields, title } }))
+                }
+                onDiceClick={shuffleTitle}
+                visible={state.format === "B"}
+              />
+
+              <div className="actions" style={{ marginTop: 20 }}>
+                {state.format === "B" && (
+                  <button
+                    className="btn secondary-dark"
+                    onClick={shuffleTitle}
+                    type="button"
+                  >
+                    Shuffle Title
+                  </button>
+                )}
+                <button
+                  id="download-btn"
+                  className="btn primary-gold"
+                  onClick={async () => {
+                    try {
+                      if (canvasRef.current) {
+                        await downloadImage(canvasRef.current, state.format);
+                        showToast("Downloaded — ready to post.");
+                      }
+                    } catch (err) {
+                      const msg = err instanceof Error ? err.message : "Download failed";
+                      showToast(msg);
+                    }
+                  }}
+                  disabled={!state.img}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" />
+                  </svg>
+                  Download Frame
+                </button>
+                <button
+                  id="share-btn"
+                  className="btn secondary-dark"
+                  onClick={async () => {
+                    try {
+                      if (canvasRef.current) {
+                        shareToX(canvasRef.current, state.format, state.fields);
+                        showToast(
+                          "Image copied — press Ctrl/Cmd+V in the tweet box to attach it.",
+                        );
+                      }
+                    } catch (err) {
+                      const msg = err instanceof Error ? err.message : "Share failed";
+                      showToast(msg);
+                    }
+                  }}
+                  disabled={!state.img}
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                    <path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4H5.6l12.1 16Z" />
+                  </svg>
+                  Share
+                </button>
+              </div>
+
+              <div className="status" id="statusMsg">{statusMsg}</div>
             </div>
           </div>
+        </div>
 
-          {/* ── RIGHT: Form + actions ── */}
-          <div className="form-col">
-            <FormFields
-              state={state}
-              onNameChange={(name) =>
-                setState((s) => ({ ...s, fields: { ...s.fields, name } }))
-              }
-              onRoleChange={(role) =>
-                setState((s) => ({ ...s, fields: { ...s.fields, role } }))
-              }
-              onTitleChange={(title) =>
-                setState((s) => ({ ...s, fields: { ...s.fields, title } }))
-              }
-              onDiceClick={shuffleTitle}
-              visible={state.format === "B"}
-            />
-
-            <div className="actions">
-              <button
-                id="download-btn"
-                className="btn primary"
-                onClick={async () => {
-                  try {
-                    if (canvasRef.current) {
-                      await downloadImage(canvasRef.current, state.format);
-                      showToast("Downloaded — ready to post.");
-                    }
-                  } catch (err) {
-                    const msg = err instanceof Error ? err.message : "Download failed";
-                    showToast(msg);
-                  }
-                }}
-                disabled={!state.img}
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" />
-                </svg>
-                Download Frame
-              </button>
-              <button
-                id="share-btn"
-                className="btn secondary"
-                onClick={async () => {
-                  try {
-                    if (canvasRef.current) {
-                      shareToX(canvasRef.current, state.format, state.fields);
-                      showToast(
-                        "Image copied — press Ctrl/Cmd+V in the tweet box to attach it.",
-                      );
-                    }
-                  } catch (err) {
-                    const msg = err instanceof Error ? err.message : "Share failed";
-                    showToast(msg);
-                  }
-                }}
-                disabled={!state.img}
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                  <path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L7.4 4H5.6l12.1 16Z" />
-                </svg>
-                Share to X
-              </button>
+        {/* ── BOTTOM SECTION ("YOUR SIGNAL, IN PUBLIC.") ── */}
+        <div className="bottom-signal-section">
+          <div className="bottom-signal-left">
+            <div className="eyebrow-small">
+              LIKE THE PFP POSITION / INSTANTLY UPDATES
             </div>
+            <h2 className="signal-title">
+              YOUR SIGNAL,<br />
+              <span className="pink-text">IN PUBLIC.</span>
+            </h2>
+            <p className="signal-desc">
+              Your photo stays on your device. The preview updates live.
+              One upload. Everything intentional.
+            </p>
+          </div>
 
-            <div className="status" id="statusMsg">{statusMsg}</div>
-
-            {/* "Your Signal in Public" preview note */}
-            <div style={{ marginTop: 'auto', paddingTop: 20, borderTop: '1.5px solid rgba(28,28,28,0.12)' }}>
-              <div style={{
-                fontFamily: '"IBM Plex Mono", monospace',
-                fontSize: 10,
-                letterSpacing: '1.5px',
-                textTransform: 'uppercase',
-                color: 'rgba(28,28,28,0.35)',
-                marginBottom: 6
-              }}>
-                LIKE THE PFP POSITION / INSTANTLY UPDATES
-              </div>
-              <div style={{
-                fontFamily: '"Space Grotesk", sans-serif',
-                fontWeight: 700,
-                fontSize: 22,
-                lineHeight: 1.1,
-                color: 'var(--charcoal)',
-                marginBottom: 6
-              }}>
-                YOUR SIGNAL,<br />
-                <span style={{ color: 'var(--pink)' }}>IN PUBLIC.</span>
-              </div>
-              <div style={{
-                fontFamily: '"IBM Plex Mono", monospace',
-                fontSize: 11,
-                color: 'rgba(28,28,28,0.45)',
-                lineHeight: 1.6
-              }}>
-                Your photo stays on your device. The preview
-                updates live. One upload. Everything
-                intentional.
-              </div>
-            </div>
+          <div className="bottom-signal-right">
+            <div className="preview-label-tag">FINAL PREVIEW</div>
+            <div className="preview-label-tag">OUTPUT PREVIEW // FRAME 01</div>
           </div>
         </div>
       </div>
 
-      {/* ── FOOTER BANNER ── */}
+      {/* ── CRIMSON BOTTOM BANNER ── */}
       <div className="footer-banner">
         28 — 31 OCT / GOA, INDIA&nbsp;📍
       </div>

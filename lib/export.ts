@@ -21,17 +21,17 @@ export function currentCaption(
   fields: { name: string; role: string; title: string },
 ): string {
   if (format === "A") {
-    return "Just framed my X pfp for HH Goa 2026 🌴⚡ building on the beach this year. #FrameInGoa";
+    return "Just framed my X pfp for HH Goa 2026 🌴⚡ building on the beach this year. #FrameInGoa #HHGoa2026";
   }
 
   const name = (fields.name || "").trim();
   const title = (fields.title || "a Builder").trim();
 
   if (name) {
-    return `${name} is pulling up to HH Goa 2026 as "${title}" 🌴💻 #FrameInGoa`;
+    return `${name} is pulling up to HH Goa 2026 as "${title}" 🌴💻 #FrameInGoa #HHGoa2026`;
   }
 
-  return `I'm pulling up to HH Goa 2026 as "${title}" 🌴💻 #FrameInGoa`;
+  return `I'm pulling up to HH Goa 2026 as "${title}" 🌴💻 #FrameInGoa #HHGoa2026`;
 }
 
 export async function downloadImage(

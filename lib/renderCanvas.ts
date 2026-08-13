@@ -6,16 +6,16 @@ export function getSlot(format: "A" | "B"): CanvasSlot {
     return {
       shape: "circle",
       cx: 600,
-      cy: 620,
+      cy: 590,
       r: 380,
-      x: 600 - 380,
-      y: 620 - 380,
+      x: 220,
+      y: 210,
       w: 760,
       h: 760,
     };
   }
   // Photo slot for ID card — pink background area
-  return { shape: "rect", x: 160, y: 290, w: 760, h: 620, r: 0 };
+  return { shape: "rect", x: 130, y: 205, w: 820, h: 440, r: 0 };
 }
 
 export function hexToRgba(hex: string, a: number): string {
@@ -314,6 +314,55 @@ function drawTropicalLeaves(
 }
 
 // ─────────────────────────────────────────────────────────────────────
+// DRAW 3D BACKING CARDS STACK (behind ID Badge)
+// ─────────────────────────────────────────────────────────────────────
+function drawBackingCardsStack(
+  ctx: CanvasRenderingContext2D,
+  W: number,
+  H: number,
+): void {
+  ctx.save();
+
+  // Card 3: Rightmost Blue Card with rounded logo mark
+  ctx.save();
+  ctx.translate(W / 2 + 50, H / 2 + 30);
+  ctx.rotate((10 * Math.PI) / 180);
+  ctx.translate(-(W / 2 + 50), -(H / 2 + 30));
+  ctx.fillStyle = "#1D5D8A";
+  roundRectPath(ctx, 70, 50, W - 140, H - 100, 28);
+  ctx.fill();
+
+  // White circle logo on blue card
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath();
+  ctx.arc(W - 130, H / 2, 45, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // Card 2: Pastel Light Blue / Cyan Card
+  ctx.save();
+  ctx.translate(W / 2 + 25, H / 2 + 15);
+  ctx.rotate((5 * Math.PI) / 180);
+  ctx.translate(-(W / 2 + 25), -(H / 2 + 15));
+  ctx.fillStyle = "#68A5C0";
+  roundRectPath(ctx, 50, 40, W - 100, H - 80, 28);
+  ctx.fill();
+  ctx.restore();
+
+  // Card 1: Leftmost Red Card (angled left)
+  ctx.save();
+  ctx.translate(W / 2 - 35, H / 2 + 20);
+  ctx.rotate((-6 * Math.PI) / 180);
+  ctx.translate(-(W / 2 - 35), -(H / 2 + 20));
+  ctx.fillStyle = "#C83226";
+  roundRectPath(ctx, 30, 30, W - 60, H - 60, 28);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────────────────────────────
 // DRAW BINDER CLIP (for ID card)
 // ─────────────────────────────────────────────────────────────────────
 function drawBinderClip(
@@ -323,50 +372,48 @@ function drawBinderClip(
 ): void {
   ctx.save();
 
+  // Metal loop / ring at top center
+  ctx.fillStyle = "#A8B2B0";
+  ctx.beginPath();
+  ctx.arc(cx, y - 2, 16, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#6E7876";
+  ctx.beginPath();
+  ctx.arc(cx, y - 2, 8, 0, Math.PI * 2);
+  ctx.fill();
+
   // Clip body (silver metallic rectangle)
   const clipW = 100;
-  const clipH = 60;
+  const clipH = 50;
   const clipX = cx - clipW / 2;
-  const clipY = y;
+  const clipY = y + 14;
 
   // Shadow
-  ctx.fillStyle = "rgba(0,0,0,0.2)";
+  ctx.fillStyle = "rgba(0,0,0,0.25)";
   roundRectPath(ctx, clipX + 4, clipY + 4, clipW, clipH, 6);
   ctx.fill();
 
   // Body gradient
-  const clipGrad = ctx.createLinearGradient(clipX, clipY, clipX + clipW, clipY);
-  clipGrad.addColorStop(0, "#A0A8B0");
-  clipGrad.addColorStop(0.4, "#D0D8E0");
-  clipGrad.addColorStop(1, "#8890A0");
+  const clipGrad = ctx.createLinearGradient(clipX, clipY, clipX + clipW, clipY + clipH);
+  clipGrad.addColorStop(0, "#C4CCC8");
+  clipGrad.addColorStop(0.5, "#E2ECE8");
+  clipGrad.addColorStop(1, "#98A29E");
   ctx.fillStyle = clipGrad;
   roundRectPath(ctx, clipX, clipY, clipW, clipH, 6);
   ctx.fill();
-
-  // Highlight line
-  ctx.strokeStyle = "rgba(255,255,255,0.5)";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(clipX + 10, clipY + 8);
-  ctx.lineTo(clipX + clipW - 10, clipY + 8);
+  ctx.strokeStyle = "#6B7571";
+  ctx.lineWidth = 1.5;
   ctx.stroke();
 
-  // Left arm
-  ctx.strokeStyle = "#909AA8";
-  ctx.lineWidth = 8;
-  ctx.lineCap = "round";
+  // Hole rivet in clip center
+  ctx.fillStyle = "#5A625E";
   ctx.beginPath();
-  ctx.moveTo(clipX + 20, clipY);
-  ctx.lineTo(clipX + 10, clipY - 50);
-  ctx.lineTo(clipX + 30, clipY - 50);
-  ctx.stroke();
-
-  // Right arm
+  ctx.arc(cx, clipY + 20, 8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#D0D8D4";
   ctx.beginPath();
-  ctx.moveTo(clipX + clipW - 20, clipY);
-  ctx.lineTo(clipX + clipW - 10, clipY - 50);
-  ctx.lineTo(clipX + clipW - 30, clipY - 50);
-  ctx.stroke();
+  ctx.arc(cx, clipY + 20, 5, 0, Math.PI * 2);
+  ctx.fill();
 
   ctx.restore();
 }
@@ -415,11 +462,11 @@ export function renderA(
   drawCircuitPattern(ctx, W);
 
   // ── Cream inner frame (square inset) ──
-  const inset = 80;
+  const inset = 120;
   const innerX = inset;
-  const innerY = inset + 60;
+  const innerY = 110;
   const innerW = W - inset * 2;
-  const innerH = H - inset * 2 - 60;
+  const innerH = H - inset * 2;
 
   // Outer border of cream area (dark green frame lines)
   ctx.strokeStyle = hexToRgba(COLORS.cream, 0.35);
@@ -468,8 +515,15 @@ export function renderA(
   ctx.arc(slot.cx!, slot.cy!, slot.r! + 6, 0, Math.PI * 2);
   ctx.stroke();
 
-  // ── Tropical leaves bottom right corner ──
-  drawTropicalLeaves(ctx, W - inset - 30, innerY + innerH, 1.2);
+  // ── Tropical leaves framing corners cleanly ──
+  // Bottom Right Corner
+  drawTropicalLeaves(ctx, W - innerX - 20, innerY + innerH - 30, 1.2);
+  // Top Right Corner Accent
+  ctx.save();
+  ctx.translate(W - innerX - 20, innerY + 30);
+  ctx.scale(1, -1);
+  drawTropicalLeaves(ctx, 0, 0, 0.9);
+  ctx.restore();
 
   // ── Header: "HH GOA 2026" ──
   ctx.fillStyle = COLORS.cream;
@@ -508,7 +562,10 @@ export function renderB(
   const H = SIZE_B_H;
   ctx.clearRect(0, 0, W, H);
 
-  // ── Card background (off-white/cream with dot pattern) ──
+  // ── 3D Layered Backing Cards Stack (behind main badge) ──
+  drawBackingCardsStack(ctx, W, H);
+
+  // ── Main Card background (off-white/cream with dot pattern) ──
   ctx.fillStyle = COLORS.offwhite;
   roundRectPath(ctx, 0, 0, W, H, 28);
   ctx.save();
@@ -554,15 +611,15 @@ export function renderB(
   ctx.fillText("BUILDER ACCESS PASS · HACKER HOUSE GOA", 50, 162);
 
   // ── Photo area: pink/blush background ──
-  const photoX = 80;
-  const photoY = 210;
-  const photoW = W - 160;
-  const photoH = 560;
+  const slot = getSlot("B");
+  const photoX = slot.x!;
+  const photoY = slot.y!;
+  const photoW = slot.w!;
+  const photoH = slot.h!;
 
   ctx.fillStyle = COLORS.blush;
   ctx.fillRect(photoX, photoY, photoW, photoH);
 
-  const slot = getSlot("B");
   if (state.img) {
     drawPhoto(ctx, state.img, slot, state);
   } else {
@@ -574,24 +631,22 @@ export function renderB(
     ctx.fillStyle = hexToRgba(COLORS.darkGreen, 0.55);
     // Head
     ctx.beginPath();
-    ctx.arc(W / 2, photoY + 180, 120, 0, Math.PI * 2);
+    ctx.arc(W / 2, photoY + 150, 100, 0, Math.PI * 2);
     ctx.fill();
     // Body
     ctx.beginPath();
-    ctx.moveTo(W / 2 - 180, photoY + photoH);
-    ctx.bezierCurveTo(W / 2 - 160, photoY + 360, W / 2 - 60, photoY + 320, W / 2, photoY + 320);
-    ctx.bezierCurveTo(W / 2 + 60, photoY + 320, W / 2 + 160, photoY + 360, W / 2 + 180, photoY + photoH);
+    ctx.moveTo(W / 2 - 160, photoY + photoH);
+    ctx.bezierCurveTo(W / 2 - 140, photoY + 320, W / 2 - 50, photoY + 280, W / 2, photoY + 280);
+    ctx.bezierCurveTo(W / 2 + 50, photoY + 280, W / 2 + 140, photoY + 320, W / 2 + 160, photoY + photoH);
     ctx.closePath();
     ctx.fill();
 
     // Placeholder text
     ctx.fillStyle = hexToRgba(COLORS.darkGreen, 0.7);
-    ctx.font = '700 38px "Space Grotesk"';
+    ctx.font = '700 34px "Space Grotesk"';
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("YOUR", W / 2, photoY + 380);
-    ctx.fillText("FACE GOES", W / 2, photoY + 428);
-    ctx.fillText("HERE", W / 2, photoY + 476);
+    ctx.fillText("YOUR FACE GOES HERE", W / 2, photoY + 350);
   }
 
   // ── Builder ID sticker (red tag top-right of photo) ──
@@ -614,10 +669,16 @@ export function renderB(
   roundRectPath(ctx, tagX, tagY, tagW, tagH, 14);
   ctx.fill();
 
-  // Small hole at top for tag
+  // Small hole at top for tag with metal pin
   ctx.fillStyle = "rgba(0,0,0,0.3)";
   ctx.beginPath();
   ctx.arc(tagX + tagW / 2, tagY + 14, 8, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Small metallic rivet pin head
+  ctx.fillStyle = "#CCCCCC";
+  ctx.beginPath();
+  ctx.arc(tagX + tagW / 2, tagY + 14, 4, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.fillStyle = "#fff";
@@ -632,13 +693,12 @@ export function renderB(
   ctx.restore();
 
   // ── Body text fields ──
-  const bodyX = 80;
-  const bodyStartY = photoY + photoH + 50;
-  const lineGap = 90;
+  const bodyX = 130;
+  const bodyStartY = photoY + photoH + 70; // 205 + 440 + 70 = 715
 
   // "BUILDER ID CARD" big title
   ctx.fillStyle = COLORS.charcoal;
-  ctx.font = '700 58px "Space Grotesk"';
+  ctx.font = '700 44px "Space Grotesk"';
   ctx.textAlign = "left";
   ctx.textBaseline = "alphabetic";
   ctx.fillText("BUILDER ID CARD", bodyX, bodyStartY);
@@ -647,60 +707,59 @@ export function renderB(
   ctx.strokeStyle = hexToRgba(COLORS.charcoal, 0.2);
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(bodyX, bodyStartY + 20);
-  ctx.lineTo(W - bodyX, bodyStartY + 20);
+  ctx.moveTo(bodyX, bodyStartY + 18);
+  ctx.lineTo(W - bodyX, bodyStartY + 18);
   ctx.stroke();
 
   // NAME field
-  const nameLabel = "NAME:";
-  const nameY = bodyStartY + lineGap;
-  ctx.font = '600 16px "IBM Plex Mono"';
+  const nameY = bodyStartY + 55; // 770
+  ctx.font = '600 14px "IBM Plex Mono"';
   ctx.fillStyle = hexToRgba(COLORS.charcoal, 0.5);
   ctx.textBaseline = "alphabetic";
-  ctx.fillText(nameLabel, bodyX, nameY);
+  ctx.fillText("NAME:", bodyX, nameY);
   const name = (state.fields.name || "YOUR NAME").toUpperCase().trim() || "YOUR NAME";
-  const nameSize = fitFontSize(ctx, name, W - bodyX * 2, 40, 24, "700", '"Space Grotesk"');
+  const nameSize = fitFontSize(ctx, name, W - bodyX * 2, 32, 18, "700", '"Space Grotesk"');
   ctx.font = `700 ${nameSize}px "Space Grotesk"`;
   ctx.fillStyle = COLORS.charcoal;
-  ctx.fillText(name, bodyX, nameY + 46);
+  ctx.fillText(name, bodyX, nameY + 36);
 
   // Divider
   ctx.strokeStyle = hexToRgba(COLORS.charcoal, 0.12);
   ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(bodyX, nameY + 60);
-  ctx.lineTo(W - bodyX, nameY + 60);
+  ctx.moveTo(bodyX, nameY + 48);
+  ctx.lineTo(W - bodyX, nameY + 48);
   ctx.stroke();
 
   // STACK / ROLE field
-  const roleY = nameY + 60 + lineGap - 10;
-  ctx.font = '600 16px "IBM Plex Mono"';
+  const roleY = nameY + 70; // 840
+  ctx.font = '600 14px "IBM Plex Mono"';
   ctx.fillStyle = hexToRgba(COLORS.charcoal, 0.5);
   ctx.fillText("STACK / ROLE:", bodyX, roleY);
   const role = (state.fields.role || "Full-Stack Builder").toUpperCase().trim() || "FULL-STACK BUILDER";
-  const roleSize = fitFontSize(ctx, role, W - bodyX * 2, 32, 18, "700", '"Space Grotesk"');
+  const roleSize = fitFontSize(ctx, role, W - bodyX * 2, 26, 16, "700", '"Space Grotesk"');
   ctx.font = `700 ${roleSize}px "Space Grotesk"`;
   ctx.fillStyle = COLORS.charcoal;
-  ctx.fillText(role, bodyX, roleY + 42);
+  ctx.fillText(role, bodyX, roleY + 34);
 
   // Divider
   ctx.strokeStyle = hexToRgba(COLORS.charcoal, 0.12);
   ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(bodyX, roleY + 56);
-  ctx.lineTo(W - bodyX, roleY + 56);
+  ctx.moveTo(bodyX, roleY + 44);
+  ctx.lineTo(W - bodyX, roleY + 44);
   ctx.stroke();
 
   // BUILDER TITLE field
-  const titleY = roleY + 56 + lineGap - 10;
-  ctx.font = '600 16px "IBM Plex Mono"';
+  const titleY = roleY + 65; // 905
+  ctx.font = '600 14px "IBM Plex Mono"';
   ctx.fillStyle = hexToRgba(COLORS.charcoal, 0.5);
   ctx.fillText("BUILDER TITLE:", bodyX, titleY);
   const title = (state.fields.title || "Full-Stack Wave Rider").toUpperCase().trim() || "FULL-STACK WAVE RIDER";
-  const titleSize = fitFontSize(ctx, title, W - bodyX * 2, 30, 18, "700", '"Space Grotesk"');
+  const titleSize = fitFontSize(ctx, title, W - bodyX * 2, 24, 15, "700", '"Space Grotesk"');
   ctx.font = `700 ${titleSize}px "Space Grotesk"`;
   ctx.fillStyle = COLORS.charcoal;
-  ctx.fillText(title, bodyX, titleY + 40);
+  ctx.fillText(title, bodyX, titleY + 32);
 
   ctx.restore(); // end card clip
 
@@ -730,5 +789,5 @@ export function renderB(
   ctx.stroke();
 
   // ── Binder clip at top center ──
-  drawBinderClip(ctx, W / 2, -30);
+  drawBinderClip(ctx, W / 2, -20);
 }
