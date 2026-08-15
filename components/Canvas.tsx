@@ -50,7 +50,7 @@ const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>(
       <div
         className="canvas-shell"
         style={{
-          display: state.img ? 'flex' : 'none',
+          display: state.img ? 'block' : 'none',
         }}
       >
         <canvas

@@ -351,20 +351,24 @@ h1.hero .flex-word {
 
 .canvas-shell {
   position: relative;
+  width: 100%;
+  max-width: 100%;
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.35);
   border: 1.5px solid rgba(232, 223, 197, 0.2);
   touch-action: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 #stage {
   width: 100%;
   height: auto;
+  max-width: 100%;
   display: block;
+  box-sizing: border-box;
+  margin: 0 auto;
   cursor: grab;
 }
 
