@@ -51,7 +51,7 @@ export default function FrameBuilder() {
       .then(() => {
         setState((s) => ({ ...s, fontsReady: true }));
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Compute cover dimensions
@@ -244,10 +244,10 @@ export default function FrameBuilder() {
         {/* Top Right Header Tag with Circuit Lines */}
         <div className="header-right-tag">
           <svg className="header-circuit" width="120" height="40" viewBox="0 0 120 40" fill="none">
-            <path d="M10 20 H60 L80 5 H110" stroke="#1A3320" strokeWidth="1.5" strokeOpacity="0.4"/>
-            <path d="M30 20 L45 35 H90" stroke="#D4246A" strokeWidth="1.5" strokeOpacity="0.4"/>
-            <circle cx="110" cy="5" r="3" fill="#1A3320"/>
-            <circle cx="90" cy="35" r="3" fill="#D4246A"/>
+            <path d="M10 20 H60 L80 5 H110" stroke="#1A3320" strokeWidth="1.5" strokeOpacity="0.4" />
+            <path d="M30 20 L45 35 H90" stroke="#D4246A" strokeWidth="1.5" strokeOpacity="0.4" />
+            <circle cx="110" cy="5" r="3" fill="#1A3320" />
+            <circle cx="90" cy="35" r="3" fill="#D4246A" />
           </svg>
           <div className="hh-label">HACKER HOUSE GOA</div>
         </div>
@@ -258,15 +258,15 @@ export default function FrameBuilder() {
         {/* Decorative: pink sun & circuit line top-right */}
         <div className="deco-wrap" style={{ top: 10, right: 30 }}>
           <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="40" r="12" fill="#F5C0C0" stroke="#D4246A" strokeWidth="2"/>
-            <path d="M50 18 V10 M50 62 V70 M28 40 H20 M72 40 H80" stroke="#D4246A" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M34 24 L28 18 M66 56 L72 62 M66 24 L72 18 M34 56 L28 62" stroke="#D4246A" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M50 70 C 50 85, 30 90, 10 90" stroke="#1A3320" strokeWidth="1.5" strokeOpacity="0.4"/>
+            <circle cx="50" cy="40" r="12" fill="#F5C0C0" stroke="#D4246A" strokeWidth="2" />
+            <path d="M50 18 V10 M50 62 V70 M28 40 H20 M72 40 H80" stroke="#D4246A" strokeWidth="2" strokeLinecap="round" />
+            <path d="M34 24 L28 18 M66 56 L72 62 M66 24 L72 18 M34 56 L28 62" stroke="#D4246A" strokeWidth="2" strokeLinecap="round" />
+            <path d="M50 70 C 50 85, 30 90, 10 90" stroke="#1A3320" strokeWidth="1.5" strokeOpacity="0.4" />
           </svg>
         </div>
 
         <div className="hero-eyebrow">
-          <span className="dot-red">●</span> OFFICIAL NGOA 2026 IDENTITY BUILDER
+          <span className="dot-red">●</span>GOA 2026 IDENTITY BUILDER
         </div>
 
         <h1 className="hero">
@@ -277,7 +277,7 @@ export default function FrameBuilder() {
 
         <div className="hero-subtitle">
           HACKER HOUSE GO<span style={{ color: "#C9371A", fontFamily: "sans-serif" }}>गोवा</span> 2026<br />
-          OFFICIAL BUILDER PASS &amp; PFP CREATOR
+          BUILDER PASS &amp; PFP CREATOR
         </div>
 
         <div style={{ marginTop: 20 }}>

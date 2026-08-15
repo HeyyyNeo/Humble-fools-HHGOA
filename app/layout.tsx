@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Hacker House GOA 2026 — Official Builder Pass & PFP Creator',
-  description: 'Create your official Hacker House GOA 2026 builder ID card or profile photo frame. No gatekeeping.',
+  title: 'Hacker House GOA 2026 — Builder Pass & PFP Creator',
+  description: 'Create your Hacker House GOA 2026 builder ID card or profile photo frame. No gatekeeping.',
 };
 
 export default function RootLayout({
